@@ -41,7 +41,7 @@ def main():
                 st.markdown(prompt)
             
             # Gemini 모델 설정
-            model = genai.GenerativeModel('gemini-2.0-flash-thinking-exp-1219')
+            model = genai.GenerativeModel('gemini-pro')
             
             context = f"""
             당신은 디자인 씽킹 방법론을 활용한 비즈니스 개발 전문가입니다.
@@ -49,13 +49,15 @@ def main():
             """
             
             response = model.generate_content([context, prompt])
+            response_text = response.candidates[0].content.parts[0].text
             
             with st.chat_message("assistant"):
-                st.markdown(response.text)
-            st.session_state.messages.append({"role": "assistant", "content": response.text})
+                st.markdown(response_text)
+            st.session_state.messages.append({"role": "assistant", "content": response_text})
     
     else:
         st.warning("API 키를 입력해주세요.")
 
 if __name__ == "__main__":
     main()
+
